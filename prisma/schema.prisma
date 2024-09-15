@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URL")
+}
+
+model Form {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  temporal    Boolean
+  timestamp   String?
+  createdAt   String
+  description String
+  author      String
+  lastUpdated String
+  public      Boolean
+  questions   Question[]
+}
+
+model Question {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  question    String
+  type        String
+  options     String[]
+  required    Boolean
+  formId      String    @db.ObjectId
+  Form        Form?     @relation(fields: [formId], references: [id])
+}
