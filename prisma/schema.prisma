@@ -18,6 +18,7 @@ model Form {
   lastUpdated String
   public      Boolean
   questions   Question[]
+  answers   Answer[]
 }
 
 model Question {
@@ -28,4 +29,16 @@ model Question {
   required    Boolean
   formId      String    @db.ObjectId
   Form        Form?     @relation(fields: [formId], references: [id])
+  answers      Answer[]
+}
+
+model Answer {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  formId      String    @db.ObjectId
+  form        Form?     @relation(fields: [formId], references: [id])
+  questionId  String    @db.ObjectId
+  question    Question? @relation(fields: [questionId], references: [id])
+  answer      String
+  userId      String
+  answeredAt   String
 }
