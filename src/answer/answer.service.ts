@@ -41,6 +41,25 @@ export class AnswerService {
       throw new BadRequestException(`Question with ID ${questionId} not found in form with ID ${fid}`);
     }
 
+    const formIsTemporal = await this.prisma.form.findUnique({ where: { id: fid }, select: { temporal: true } });
+    
+    if (formIsTemporal.temporal) {
+      const now = Date.now();
+      if (now < Number(form.start) || now > Number(form.end)) {
+        throw new BadRequestException(`Form with ID ${fid} is not available at this time`);
+      }
+    }
+
+    if (form.public === false) {
+      if (userId !== form.author) {
+        throw new BadRequestException(`Form with ID ${fid} is not public and requires authorization`);
+      }
+    }
+
+    if (form.active === false) {
+      throw new BadRequestException(`Form with ID ${fid} is not active`);
+    }
+
 
     return this.prisma.answer.create({
       data: {

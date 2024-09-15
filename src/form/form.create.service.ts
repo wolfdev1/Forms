@@ -8,9 +8,9 @@ export class CreateFormService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: any) {
-    const { name, temporal, timestamp, description, author, publicForm, questions } = data;
+    const { name, temporal, start, end, active, description, author, publicForm, questions } = data;
 
-    if (!name || !temporal || !timestamp || !description || !author || publicForm === undefined || !questions) {
+    if (!name || !temporal || !start || !end || !active || !description || !author || publicForm === undefined || !questions) {
       throw new HttpException('Missing required fields in form creation', HttpStatus.BAD_REQUEST);
     }
 
@@ -28,7 +28,9 @@ export class CreateFormService {
             id: formId,
             name: name,
             temporal: temporal,
-            timestamp: timestamp,
+            start: start,
+            end: end,
+            active: active,
             createdAt: Date.now().toString(),
             description: description,
             author: author,

@@ -8,7 +8,7 @@ export class UpdateFormService {
   constructor(private readonly prisma: PrismaService) {}
 
   async update(id: string, data: any) {
-    const { name, temporal, timestamp, description, author, publicForm, questions } = data;
+    const { name, start, end, timestamp, active, description, author, publicForm, questions } = data;
 
     if (!id) {
       throw new HttpException('Form ID is required', HttpStatus.BAD_REQUEST);
@@ -16,8 +16,10 @@ export class UpdateFormService {
 
     const updateData: any = {};
     if (name !== undefined) updateData.name = name;
-    if (temporal !== undefined) updateData.temporal = temporal;
+    if (start !== undefined) updateData.start = start;
+    if (end !== undefined) updateData.end = end;
     if (timestamp !== undefined) updateData.timestamp = timestamp;
+    if (active !== undefined) updateData.active = active;
     if (description !== undefined) updateData.description = description;
     if (author !== undefined) updateData.author = author;
     if (publicForm !== undefined) updateData.public = publicForm;

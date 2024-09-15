@@ -11,12 +11,14 @@ model Form {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   temporal    Boolean
-  timestamp   String?
+  start   String?
+  end     String?
   createdAt   String
   description String
   author      String
   lastUpdated String
   public      Boolean
+  active      Boolean
   questions   Question[]
   answers   Answer[]
 }
