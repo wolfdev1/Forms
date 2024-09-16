@@ -11,16 +11,16 @@ model Form {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   temporal    Boolean
-  start   String?
-  end     String?
-  createdAt   String
+  start       DateTime?
+  end         DateTime?
+  createdAt   DateTime     @default(now())
   description String
   author      String
-  lastUpdated String
+  lastUpdated DateTime     @updatedAt
   public      Boolean
   active      Boolean
   questions   Question[]
-  answers   Answer[]
+  answers     Answer[]
 }
 
 model Question {
@@ -31,7 +31,7 @@ model Question {
   required    Boolean
   formId      String    @db.ObjectId
   Form        Form?     @relation(fields: [formId], references: [id])
-  answers      Answer[]
+  answers     Answer[]
 }
 
 model Answer {
@@ -42,5 +42,5 @@ model Answer {
   question    Question? @relation(fields: [questionId], references: [id])
   answer      String
   userId      String
-  answeredAt   String
+  answeredAt  DateTime   @default(now())
 }

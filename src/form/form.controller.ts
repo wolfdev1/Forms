@@ -1,4 +1,4 @@
-import { Controller, Put, Body, Res, HttpStatus, Query, Delete } from '@nestjs/common';
+import { Controller, Put, Body, Res, HttpStatus, Query, Delete, Param } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateFormService } from './form.create.service';
 import { UpdateFormService } from './form.update.service';
@@ -16,8 +16,8 @@ export class FormController {
     res.status(s).json({ message: "Form succesfully created", form: form, status: s });
   }
 
-  @Put('update')
-    async update(@Body() body: any, @Res() res: Response, @Query('id') id: string) {
+  @Put(':formId/update')
+    async update(@Body() body: any, @Res() res: Response, @Param('formId') id: string) {
 
     const f = await this.updateForm.update(id, body);
     const s = HttpStatus.CREATED;
@@ -25,8 +25,8 @@ export class FormController {
     res.status(s).json({ f, status: s });
   }  
 
-  @Delete('delete')
-    async delete(@Res() res: Response, @Query('id') id: string) {
+  @Delete(':formId/delete')
+    async delete(@Res() res: Response, @Param('formId') id: string) {
         const f = await this.deleteForm.delete(id);
         const s = HttpStatus.OK;
     
