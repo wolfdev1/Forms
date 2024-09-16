@@ -67,7 +67,7 @@ export class AnswerService {
         questionId,
         answer,
         userId,
-        answeredAt: Date.now().toString(), 
+        answeredAt: new Date(), 
       },
     });
   }
